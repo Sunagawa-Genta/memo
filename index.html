@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>患者タスク管理</title>
+</head>
+
+<body>
+    <header class="header">
+        <h1>AMEC3</h1>
+
+        <nav>
+            <ul>
+                <li><a href="#">Top</a></li>
+                <li><a href="#">連絡</a></li>
+                <li class="has-child"><a href="#">ナビゲーション</a>
+                    <ul>
+                        <li><a href="member.html">メンバー</a></li>
+                        <li><a href="plan.html">予定</a></li>
+                        <li><a href="dish.html">食事</a></li>
+                        <li><a href="drag.html">内服</a></li>
+                    </ul>
+                </li>
+                <li class="has-child"><a href="#">記録</a>
+                    <ul>
+                        <li><a href="#">初診時</a></li>
+                        <li><a href="#">再診</a></li>
+                        <li><a href="#">プロファイル</a></li>
+                        <li><a href="#">看護記録</a></li>
+                    </ul>
+                </li>
+                <li class="has-child"><a href="#">病室</a>
+                    <ul>
+                        <li><a href="#">161</a></li>
+                        <li><a href="162.html">162</a></li>
+                        <li><a href="163.html">163</a></li>
+                        <li><a href="164.html">164</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+
+    </header>
+    <main>
+        <h1>161ベッド</h1>
+        <div class="img"><img src="img/pu-tin.jpg.webp"></div>
+        <label for="name">名前</label>
+        <input type="text" style="width:100px;" id="name_area" name="patientname">
+        <label for="age">年齢</label>
+        <input type="text" style="width: 30px;" id="age" name="age">
+        <label for="sex">性別</label>
+        <select name="sex" id="sex">
+            <option value="man">男</option>
+            <option value="woman">女</option>
+        </select><br>
+        <label for="disease">主病名</label>
+        <select name="disease" id="disease">
+            <option value="brain">脳梗塞</option>
+            <option value="sah">くも膜下出血</option>
+            <option value="brain-s">脳出血</option>
+        </select><br>
+        <label for="medical-history">既往歴</label>
+        <input type="checkbox" name="medical-history" id="medical-history1" value="1" checked="checked"><label
+            for="food1">高血圧</label>
+        <input type="checkbox" name="medical-history" id="medical-history2" value="2"><label for="food2">糖尿病</label>
+        <input type="checkbox" name="medical-history" id="medical-history3" value="3"><label for="food3">高脂血症</label>
+        <input type="checkbox" name="medical-history" id="medical-history4" value="4"><label for="food4">心不全</label><br>
+
+        <button id="save">保存</button>
+        <button id="clear">削除</button><br>
+        <div id="input">
+            <label>TODO: <input id="todo"></label><br>
+            <label>いつまで: <input type="date"></label><br>
+            <button id="submit">登録</button>
+            <button id="reset">リセット</button>
+        </div>
+
+        <table>
+            <tr>
+                <th id="todoLabel">TODO</th>
+                <th id="dateLabel">いつまで</th>
+                <th>完了</th>
+            </tr>
+        </table>
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        const table = document.querySelector('table');     // 表
+        const todo = document.getElementById('todo');      // TODO
+        const deadline = document.querySelector('input[type="date"]');  // 締切
+        const submit = document.getElementById('submit');  // 登録ボタン
+
+        submit.addEventListener('click', () => {
+            const item = {};
+            if (todo.value != '') {
+                item.todo = todo.value;
+            } else {
+                item.todo = '';
+            }
+
+
+            if (deadline.value != '') {
+                item.deadline = deadline.value;
+            } else {
+                const date = new Date();
+                item.deadline = date.toLocaleDateString().replace(/\//g, '-');
+            }
+
+            item.done = false;
+
+            todo.value = '';
+            deadline.value = '';
+
+            const tr = document.createElement('tr');
+
+            for (const prop in item) {
+                const td = document.createElement('td');
+                if (prop == 'done') {
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.checked = item[prop];
+                    td.appendChild(checkbox);
+                } else {
+                    td.textContent = item[prop];
+                }
+                tr.appendChild(td);
+            }
+
+            table.append(tr);
+        });
+
+
+
+        //保存//
+        $("#save").on("click", function () {
+            const text = $(`#name_area`).val();
+            const age = $(`#age`).val();
+            const data = {
+                text: text,
+                age: age,
+            };
+            const jsonData = JSON.stringify(data);
+            localStorage.setItem(`memo`, jsonData);
+        });
+        //削除//
+        $("#clear").on("click", function () {
+            localStorage.removeItem("memo");
+            $("#name_area").val("");
+            $(`#age`).val("");
+        });
+
+        //データの取得//
+        if (localStorage.getItem("memo")) {
+            const jsonData = localStorage.getItem(`memo`);
+            console.log(jsonData);
+            const data = JSON.parse(jsonData)
+            console.log(data);
+            $(`#name_area`).val(data.text);
+            $(`#age`).val(data.age);
+        }
+
+        //ドロップダウンの設定を関数でまとめる
+        function mediaQueriesWin() {
+            var width = $(window).width();
+            if (width <= 768) {//横幅が768px以下の場合
+                $(".has-child>a").off('click'); //has-childクラスがついたaタグのonイベントを複数登録を避ける為offにして一旦初期状態へ
+                $(".has-child>a").on('click', function () {//has-childクラスがついたaタグをクリックしたら
+                    var parentElem = $(this).parent();// aタグから見た親要素の<li>を取得し
+                    $(parentElem).toggleClass('active');//矢印方向を変えるためのクラス名を付与して
+                    $(parentElem).children('ul').stop().slideToggle(500);//liの子要素のスライドを開閉させる※数字が大きくなるほどゆっくり開く
+                    return false;//リンクの無効化
+                });
+            } else {//横幅が768px以上の場合
+                $(".has-child>a").off('click');//has-childクラスがついたaタグのonイベントをoff(無効)にし
+                $(".has-child").removeClass('active');//activeクラスを削除
+                $('.has-child').children('ul').css("display", "");//スライドトグルで動作したdisplayも無効化にする
+            }
+        }
+
+        // ページがリサイズされたら動かしたい場合の記述
+        $(window).resize(function () {
+            mediaQueriesWin();/* ドロップダウンの関数を呼ぶ*/
+        });
+
+        // ページが読み込まれたらすぐに動かしたい場合の記述
+        $(window).on('load', function () {
+            mediaQueriesWin();/* ドロップダウンの関数を呼ぶ*/
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
