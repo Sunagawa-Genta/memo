@@ -1,0 +1,23 @@
+table {
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+td,
+th {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+table tr th:nth-child(odd),
+table tr td:nth-child(odd) {
+    background: #e6f2ff;
+}
+
+h1 {
+    font-weight: bold;
+    font-size: 40px;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+}

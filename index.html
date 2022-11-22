@@ -16,12 +16,12 @@
         <nav>
             <ul>
                 <li><a href="#">Top</a></li>
-                <li><a href="#">連絡</a></li>
+                <li><a href="Schedule/keikaku.html">スケジュール</a></li>
                 <li class="has-child"><a href="#">ナビゲーション</a>
                     <ul>
                         <li><a href="member.html">メンバー</a></li>
-                        <li><a href="plan.html">予定</a></li>
-                        <li><a href="dish.html">食事</a></li>
+                        <li><a href="plan.html">週間業務</a></li>
+                        <li><a href="tentou.html">転倒転落アセスメント</a></li>
                         <li><a href="drag.html">内服</a></li>
                     </ul>
                 </li>
@@ -59,9 +59,9 @@
         </select><br>
         <label for="disease">主病名</label>
         <select name="disease" id="disease">
-            <option value="brain">脳梗塞</option>
-            <option value="sah">くも膜下出血</option>
-            <option value="brain-s">脳出血</option>
+            <option value="脳梗塞">脳梗塞</option>
+            <option value="くも膜下出血">くも膜下出血</option>
+            <option value="脳出血">脳出血</option>
         </select><br>
         <label for="medical-history">既往歴</label>
         <input type="checkbox" name="medical-history" id="medical-history1" value="1" checked="checked"><label
@@ -70,20 +70,19 @@
         <input type="checkbox" name="medical-history" id="medical-history3" value="3"><label for="food3">高脂血症</label>
         <input type="checkbox" name="medical-history" id="medical-history4" value="4"><label for="food4">心不全</label><br>
 
-        <button id="save">保存</button>
+        <button id="save1">保存</button>
         <button id="clear">削除</button><br>
         <div id="input">
             <label>TODO: <input id="todo"></label><br>
             <label>いつまで: <input type="date"></label><br>
             <button id="submit">登録</button>
-            <button id="reset">リセット</button>
         </div>
 
         <table>
             <tr>
                 <th id="todoLabel">TODO</th>
                 <th id="dateLabel">いつまで</th>
-                <th>完了</th>
+                <th id="finish">完了</th>
             </tr>
         </table>
     </main>
@@ -139,9 +138,13 @@
         $("#save").on("click", function () {
             const text = $(`#name_area`).val();
             const age = $(`#age`).val();
+            const sex = $(`#sex`).val();
+            const disease = $(`#disease`).val();
             const data = {
                 text: text,
                 age: age,
+                sex: sex,
+                disease: disease,
             };
             const jsonData = JSON.stringify(data);
             localStorage.setItem(`memo`, jsonData);
@@ -151,6 +154,8 @@
             localStorage.removeItem("memo");
             $("#name_area").val("");
             $(`#age`).val("");
+            $(`#sex`).val("");
+            $(`#disease`).val("");
         });
 
         //データの取得//
@@ -161,6 +166,9 @@
             console.log(data);
             $(`#name_area`).val(data.text);
             $(`#age`).val(data.age);
+            $(`#sex`).val(data.sex);
+            $(`#disease`).val(data.disease);
+
         }
 
         //ドロップダウンの設定を関数でまとめる
@@ -190,6 +198,9 @@
         $(window).on('load', function () {
             mediaQueriesWin();/* ドロップダウンの関数を呼ぶ*/
         });
+
+        //todo保存//
+
 
 
 
