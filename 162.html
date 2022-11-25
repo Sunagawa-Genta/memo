@@ -59,51 +59,95 @@
         </select><br>
         <label for="disease">主病名</label>
         <select name="disease" id="disease">
-            <option value="brain">脳梗塞</option>
-            <option value="sah">くも膜下出血</option>
-            <option value="brain-s">脳出血</option>
+            <option value="脳梗塞">脳梗塞</option>
+            <option value="くも膜下出血">くも膜下出血</option>
+            <option value="脳出血">脳出血</option>
         </select><br>
         <label for="medical-history">既往歴</label>
-        <input type="checkbox" name="medical-history" id="medical-history1" value="1" checked="checked"><label
-            for="food1">高血圧</label>
-        <input type="checkbox" name="medical-history" id="medical-history2" value="2"><label for="food2">糖尿病</label>
-        <input type="checkbox" name="medical-history" id="medical-history3" value="3"><label for="food3">高脂血症</label>
-        <input type="checkbox" name="medical-history" id="medical-history4" value="4"><label for="food4">心不全</label><br>
-
-        <button id="save">保存</button>
+        <select name="medical-history" id="medical-history">
+            <option value="高血圧">高血圧</option>
+            <option value="糖尿病">糖尿病</option>
+            <option value="高脂血症">高脂血症</option>
+        </select><br>
+        <button id="save1">保存</button>
         <button id="clear">削除</button><br>
-
-        <label for="todoLabel">TODO</label>
-        <select name="todo" id="todoLabel">
-            <option value="seisiki">清拭</option>
-            <option value="senpatu">洗髪</option>
-            <option value="syuyoku">手浴</option>
-            <option value="sokuyoku">足浴</option>
-            <option value="care">口腔ケア</option>
-            <option value="vital">バイタルサイン測定</option>
-        </select>
-        <label>いつまで: <input type="date"></label><br>
-        <button id="submit">登録</button>
-        <button id="reset">リセット</button>
+        <div id="input">
+            <label>TODO: <input id="todo"></label><br>
+            <label>いつまで: <input type="date"></label><br>
+            <button id="submit">登録</button>
         </div>
 
         <table>
             <tr>
                 <th id="todoLabel">TODO</th>
                 <th id="dateLabel">いつまで</th>
-                <th>完了</th>
+                <th id="finish">完了</th>
             </tr>
         </table>
     </main>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
+        const table = document.querySelector('table');     // 表
+        const todo = document.getElementById('todo');      // TODO
+        const deadline = document.querySelector('input[type="date"]');  // 締切
+        const submit = document.getElementById('submit');  // 登録ボタン
+
+        submit.addEventListener('click', () => {
+            const item = {};
+            if (todo.value != '') {
+                item.todo = todo.value;
+            } else {
+                item.todo = '';
+            }
+
+
+            if (deadline.value != '') {
+                item.deadline = deadline.value;
+            } else {
+                const date = new Date();
+                item.deadline = date.toLocaleDateString().replace(/\//g, '-');
+            }
+
+            item.done = false;
+
+            todo.value = '';
+            deadline.value = '';
+
+            const tr = document.createElement('tr');
+
+            for (const prop in item) {
+                const td = document.createElement('td');
+                if (prop == 'done') {
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.checked = item[prop];
+                    td.appendChild(checkbox);
+                } else {
+                    td.textContent = item[prop];
+                }
+                tr.appendChild(td);
+            }
+
+            table.append(tr);
+        });
+
+
+
         //保存//
-        $("#save").on("click", function () {
+        $("#save1").on("click", function () {
             const text = $(`#name_area`).val();
             const age = $(`#age`).val();
+            const sex = $(`#sex`).val();
+            const disease = $(`#disease`).val();
+            const history = $(`#medical-history`).val();
+
             const data = {
                 text: text,
                 age: age,
+                sex: sex,
+                disease: disease,
+                history: history,
+
             };
             const jsonData = JSON.stringify(data);
             localStorage.setItem(`memo`, jsonData);
@@ -113,6 +157,9 @@
             localStorage.removeItem("memo");
             $("#name_area").val("");
             $(`#age`).val("");
+            $(`#sex`).val("");
+            $(`#disease`).val("");
+            $(`#medical-history`).val("");
         });
 
         //データの取得//
@@ -123,6 +170,10 @@
             console.log(data);
             $(`#name_area`).val(data.text);
             $(`#age`).val(data.age);
+            $(`#sex`).val(data.sex);
+            $(`#disease`).val(data.disease);
+            $(`#medical-history`).val(data.history);
+
         }
 
         //ドロップダウンの設定を関数でまとめる

@@ -7,7 +7,7 @@ const icTask = document.getElementById('work');
 const deselectBtn = document.getElementById('deselect');
 const taskContainer = document.querySelector('.task__container');
 const scheduleContainer = document.querySelector('.schedule__container');
-const saveBtn=document.querySelector(`.saveBtn`)
+const saveBtn = document.querySelector(`.saveBtn`)
 const resetBtn = document.querySelector('.deleteBtn');
 const popUp = document.querySelector('.pop-up__container');
 const noBtn = document.getElementById('btn__no');
@@ -103,12 +103,3 @@ function deleteTasks() {
     closePopup();
 }
 
-// Open Pop-up
-function openPopup() {
-    popUp.style.display = 'flex';
-}
-
-// Close Pop-up
-function closePopup() {
-    popUp.style.display = 'none';
-}

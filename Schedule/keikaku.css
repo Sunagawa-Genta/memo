@@ -7,9 +7,6 @@
     background-color: navajowhite;
 }
 
-body {
-    font-family: 'Ubuntu', sans-serif;
-}
 
 .container {
     height: 100vh;
@@ -44,15 +41,10 @@ h3 {
     box-shadow: 0px 0px 0px 2px black inset;
 }
 
-#deselect {
-    background-color: #1d3557;
-    color: white;
-}
-
 
 /* SCHEDULE DESIGN */
 .schedule__container {
-    background: linear-gradient(#ebf4f5, #b5c6e0);
+    background-color: navajowhite;
     display: flex;
     flex-direction: column;
     padding: 1rem;
@@ -70,7 +62,7 @@ h3 {
 
 .day {
     width: 100px;
-    border: solid 1px white;
+    border: solid 1px black;
     color: black;
     font-weight: bold;
     display: flex;
@@ -97,6 +89,7 @@ h3 {
 
 .task {
     background-color: white;
+    border: solid 1px black;
     height: 70px;
     width: 100px;
     margin: 2px;
@@ -124,12 +117,7 @@ h3 {
     background-color: #eee;
 }
 
-.saveBtn {
-    margin-top: 20px;
-    border: none;
-    border: solid 1px black;
-    outline: none;
-}
+
 
 /* Pop up */
 .pop-up__container {

@@ -22,16 +22,10 @@
                         <li><a href="member.html">メンバー</a></li>
                         <li><a href="plan.html">週間業務</a></li>
                         <li><a href="tentou.html">転倒転落アセスメント</a></li>
-                        <li><a href="drag.html">内服</a></li>
+                        <li><a href="https://www.qlife.jp/meds/">薬検索</a></li>
                     </ul>
                 </li>
-                <li class="has-child"><a href="#">記録</a>
-                    <ul>
-                        <li><a href="#">初診時</a></li>
-                        <li><a href="#">再診</a></li>
-                        <li><a href="#">プロファイル</a></li>
-                        <li><a href="#">看護記録</a></li>
-                    </ul>
+                <li><a href="kiroku.html">記録</a>
                 </li>
                 <li class="has-child"><a href="#">病室</a>
                     <ul>
@@ -47,7 +41,7 @@
     </header>
     <main>
         <h1>161ベッド</h1>
-        <div class="img"><img src="img/pu-tin.jpg.webp"></div>
+        <div class="img"><img src=""></div>
         <label for="name">名前</label>
         <input type="text" style="width:100px;" id="name_area" name="patientname">
         <label for="age">年齢</label>
@@ -64,12 +58,11 @@
             <option value="脳出血">脳出血</option>
         </select><br>
         <label for="medical-history">既往歴</label>
-        <input type="checkbox" name="medical-history" id="medical-history1" value="1" checked="checked"><label
-            for="food1">高血圧</label>
-        <input type="checkbox" name="medical-history" id="medical-history2" value="2"><label for="food2">糖尿病</label>
-        <input type="checkbox" name="medical-history" id="medical-history3" value="3"><label for="food3">高脂血症</label>
-        <input type="checkbox" name="medical-history" id="medical-history4" value="4"><label for="food4">心不全</label><br>
-
+        <select name="medical-history" id="medical-history">
+            <option value="高血圧">高血圧</option>
+            <option value="糖尿病">糖尿病</option>
+            <option value="高脂血症">高脂血症</option>
+        </select><br>
         <button id="save1">保存</button>
         <button id="clear">削除</button><br>
         <div id="input">
@@ -135,16 +128,20 @@
 
 
         //保存//
-        $("#save").on("click", function () {
+        $("#save1").on("click", function () {
             const text = $(`#name_area`).val();
             const age = $(`#age`).val();
             const sex = $(`#sex`).val();
             const disease = $(`#disease`).val();
+            const history = $(`#medical-history`).val();
+
             const data = {
                 text: text,
                 age: age,
                 sex: sex,
                 disease: disease,
+                history: history,
+
             };
             const jsonData = JSON.stringify(data);
             localStorage.setItem(`memo`, jsonData);
@@ -156,6 +153,7 @@
             $(`#age`).val("");
             $(`#sex`).val("");
             $(`#disease`).val("");
+            $(`#medical-history`).val("");
         });
 
         //データの取得//
@@ -168,6 +166,7 @@
             $(`#age`).val(data.age);
             $(`#sex`).val(data.sex);
             $(`#disease`).val(data.disease);
+            $(`#medical-history`).val(data.history);
 
         }
 
@@ -200,6 +199,8 @@
         });
 
         //todo保存//
+
+
 
 
 

@@ -24,7 +24,7 @@
             <div class="task__name" id="tv" style="background-color: #2a9d8f">テレビ</div>
             <div class="task__name" id="friends" style="background-color: #a8dadc">面会</div>
             <div class="task__name" id="ic" style="background-color: #bdb2ff">IC</div>
-            <div class="task__name" id="deselect">Deselect All</div>
+
 
         </div>
 
@@ -92,22 +92,10 @@
                 <div class="task"></div>
             </div>
         </div>
-        <form class="saveBtn">
-            <input type="button" value="印刷する" onclick="window.print();">
-        </form>
-        <button class="deleteBtn">リセット</button>
-
-        <div class="pop-up__container">
-            <div class="pop-up">
-                <h4>本当にリセットしますか？</h4>
-                <div class="btn__container">
-                    <div class="btn__answer" id="btn__yes">はい</div>
-                    <div class="btn__answer" id="btn__no">いいえ</div>
-                </div>
-            </div>
-        </div>
+        <a href="javascript:void(0)" onclick="window.print();return false;">このページを印刷</a>
 
     </div>
+
 
     <script src="main.js"></script>
 </body>
